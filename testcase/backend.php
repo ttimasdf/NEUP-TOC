@@ -6,21 +6,17 @@
     $ip = '0.0.0.0';
 
     $resSocket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-
     if (checkOK ($resSocket, 'Socket Create') == -1) exit (-1);
-
     $resBindResult = socket_bind($resSocket, $ip, $port);
-
     if (checkOK($resBindResult, 'Sck bind') == -1) exit (-1);
-
     $resLisnResult = socket_listen($resSocket, 300);
-
     if (checkOK($resLisnResult, 'Sck listen') == -1) exit (-1);
 
     echo "Listening " . $ip . ':'. $port . "....\n";
     $cnt = 1;
     while(1)
     {
+        //For each coming connection we will open a new socket to send the result back(我就是要超过80个字符你来打我啊)
         $commSocket = socket_accept($resSocket);
         if($commSocket != FALSE)
         {

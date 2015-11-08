@@ -17,15 +17,12 @@
 
     echo $msgFromServer;
 
-    while(1)
-    {
-        $msgFromServer = socket_read($resSocket, 2345);
+    $msgFromServer = socket_read($resSocket, 2345);
 
-        if($msgFromServer != "")
-        {
-            echo "Msg Recved !\n";
-            echo "Msg is : " . $msgFromServer;
-        }
+    if($msgFromServer != "")
+    {
+        echo "Msg Recved !\n";
+        echo "Msg is : " . $msgFromServer;
     }
     socket_close($resSocket);
 
