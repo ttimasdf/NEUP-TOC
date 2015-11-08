@@ -35,6 +35,7 @@ class actionClass
 
     public function Run()
     {
+        $timeout=5;
         if(needCompile($this->languageType))    //If this is a lang need to be compiled
         {
             //$cmdStr = "./" . $this->execFileName . " < " . $inputFileName . " 1> " . $this->codeFileName . "out.txt"
@@ -44,8 +45,15 @@ class actionClass
         {
             $cmdStr = $execCompiler[$this->languageType] . " " . $this->codeFileName . " < " . $this->inputFileName . " 1> out.txt 2> err.txt";
         }
-        $resStr = exec($cmdStr);
-        //Read the output file and return the result
+        $narray=array ();
+        $tick=time()+$timeout;
+
+        $process=proc_open($cmdStr, $narray, $narray);
+        do
+        {
+            $tock=$tick-time();
+            sleep(1);
+        }while(proc_get_status($process)['running'] && $tock > 0);               //Read the output file and return the result
         $runResObj = new simpleResultClass();
         if(($errFileSize = filesize("err.txt")) == 0)
         {
